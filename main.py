@@ -43,37 +43,68 @@ def new_hire(): #When someone hires something new this code will run and ensure 
     quantity = 0
     hire_correct = True
 
-    if name_field.get().strip() == "":
-        veiwable_text.set("Name cannot be empty")
+    def confirm_hire():
 
-    elif receipt_field.get().strip() == "":
-        veiwable_text.set("Receipt cannot be empty")
+        if add_name.get().strip() == "":
+            veiwable_text.set("Name cannot be empty")
 
-    elif receipt_field.get().isdigit() == False:
-        veiwable_text.set("Receipt must be a number")
+        elif add_receipt.get().strip() == "":
+            veiwable_text.set("Receipt cannot be empty")
 
-    elif item_field.get().strip() == "":
-        veiwable_text.set("Item cannot be empty")
+        elif add_receipt.get().isdigit() == False:
+            veiwable_text.set("Receipt must be a number")
 
-    elif quantity_field.get().strip() == "":
-        veiwable_text.set("Quantity cannot be empty")
+        elif add_item.get().strip() == "":
+            veiwable_text.set("Item cannot be empty")
 
-    elif quantity_field.get().isdigit() == False:
-        veiwable_text.set("Quantity must be a number")
+        elif add_quantity.get().strip() == "":
+            veiwable_text.set("Quantity cannot be empty")
 
-    elif int(quantity_field.get()) < 0 or int(quantity_field.get()) > 500:
-        veiwable_text.set("Quantity must be 0-500")
+        elif add_quantity.get().isdigit() == False:
+            veiwable_text.set("Quantity must be a number")
 
-    else:
-        print(f"Name: {name_field.get()}, Receipt: {receipt_field.get()}, Item: {item_field.get()}, Quantity: {quantity_field.get()}")
-        with open(detail_file, "a") as f:
-            f.write(f"{name_field.get()}\n{receipt_field.get()}\n{item_field.get()}\n{quantity_field.get()}\n\n")
-        name_field.delete(0, END)
-        receipt_field.delete(0, END)
-        item_field.delete(0, END)
-        quantity_field.delete(0, END)
-        veiwable_text.set("Hire added successfully")
-        refresh()
+        elif int(add_quantity.get()) < 0 or int(add_quantity.get()) > 500:
+            veiwable_text.set("Quantity must be 0-500")
+
+        else:
+            print(f"Name: {add_name.get()}, Receipt: {add_receipt.get()}, Item: {add_item.get()}, Quantity: {add_quantity.get()}")
+            with open(detail_file, "a") as f:
+                f.write(f"{add_name.get()}\n{add_receipt.get()}\n{add_item.get()}\n{add_quantity.get()}\n\n")
+            add_name.delete(0, END)
+            add_receipt.delete(0, END)
+            add_item.delete(0, END)
+            add_quantity.delete(0, END)
+            veiwable_text.set("Hire added successfully")
+            refresh()
+            append_window.destroy()
+
+
+    append_window = tk.Toplevel(root)
+    append_window.title("New Hire")
+#    append_window.resizable(tk.FALSE, tk.FALSE)
+
+    add_name = tk.Entry(append_window)
+    add_name.grid(row=0, column=0)
+    placeholder(add_name, "Name")
+
+    add_receipt = tk.Entry(append_window)
+    add_receipt.grid(row=1, column=0)
+    placeholder(add_receipt, "Receipt")
+
+    add_item = tk.Entry(append_window)
+    add_item.grid(row=2, column=0)
+    placeholder(add_item, "Item")
+
+    add_quantity = tk.Entry(append_window)
+    add_quantity.grid(row=3, column=0)
+    placeholder(add_quantity, "Quantity")
+
+    text_in_hire_window = tk.Label(append_window, textvariable=veiwable_text)
+    text_in_hire_window.grid(row=4, column=0)
+
+    button_to_confirm = tk.Button(append_window, text="Confirm", command=confirm_hire)
+    button_to_confirm.grid(row=5, column=0)
+
 
 def delete():
     selected = listbox_of_hires.curselection()
@@ -101,7 +132,7 @@ def placeholder(entry, placeholder_text):
     def on_focus_in(event):
         if entry.get() == placeholder_text:
             entry.delete(0, END)
-            entry.config(fg="black")
+            entry.config(fg="white")
 
     def on_focus_out(event):
         if entry.get() == "":
@@ -115,6 +146,9 @@ root.title("Julie's Party Hire") #creates blank window named Julies party hire
 root.columnconfigure(0, weight=1)
 root.rowconfigure(1, weight=1)
 root.rowconfigure(0, weight=0)
+
+
+
 
 
 veiwable_text = tk.StringVar()
@@ -179,6 +213,15 @@ text.grid(row=4, column=0)
 listbox_of_hires.bind("<<ListboxSelect>>", view_in_fields)
 
 refresh()
+
+#entry = tk.Entry(frame2)
+#entry.grid(row=0, column=0, sticky="ew")
+
+#entry.bind("<Return>", add_to_list)
+
+#entry_btn = tk.Button(frame2, text="Add", command=add_to_list)
+#entry_btn.grid(row=0, column=1)
+
 #text_list = tk.Listbox(frame2)
 #text_list.grid(row=1, column=0, columnspan=2, sticky="nsew")
 root.mainloop() #stops window from immediatly closing
