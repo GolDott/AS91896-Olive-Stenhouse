@@ -179,15 +179,6 @@ text.grid(row=4, column=0)
 listbox_of_hires.bind("<<ListboxSelect>>", view_in_fields)
 
 refresh()
-
-#entry = tk.Entry(frame2)
-#entry.grid(row=0, column=0, sticky="ew")
-
-#entry.bind("<Return>", add_to_list)
-
-#entry_btn = tk.Button(frame2, text="Add", command=add_to_list)
-#entry_btn.grid(row=0, column=1)
-
 #text_list = tk.Listbox(frame2)
 #text_list.grid(row=1, column=0, columnspan=2, sticky="nsew")
 root.mainloop() #stops window from immediatly closing
